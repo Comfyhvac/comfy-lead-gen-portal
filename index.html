@@ -654,6 +654,11 @@
                         <textarea id="customerAddress" placeholder="123 Main St, City, State 12345" rows="2"></textarea>
                     </div>
 
+                    <div class="form-group">
+                        <label>Notes</label>
+                        <textarea id="customerNotes" placeholder="Any special requests, follow-up info, or notes about the prospect..." rows="3"></textarea>
+                    </div>
+
                     <div id="bookingMessage"></div>
 
                     <div class="button-group">
@@ -706,7 +711,7 @@
 
         // ==================== HOUSE CALL PRO CONFIG ====================
         const HCP_CONFIG = {
-            apiKey: '6cadea4282b44fa486eaef736d06d321', // User will add this
+            apiKey: '', // User will add this
             baseUrl: 'https://api.housecallpro.com/v2'
         };
 
@@ -976,6 +981,7 @@
             document.getElementById('customerPhone').value = '';
             document.getElementById('customerEmail').value = '';
             document.getElementById('customerAddress').value = '';
+            document.getElementById('customerNotes').value = '';
             document.getElementById('bookingMessage').innerHTML = '';
         }
 
@@ -991,9 +997,10 @@
             const phone = document.getElementById('customerPhone').value.trim();
             const email = document.getElementById('customerEmail').value.trim();
             const address = document.getElementById('customerAddress').value.trim();
+            const notes = document.getElementById('customerNotes').value.trim();
 
             if (!name || !phone || !email || !address) {
-                alert('Please fill in all fields');
+                alert('Please fill in all required fields');
                 return;
             }
 
@@ -1016,7 +1023,7 @@
                     address: address,
                     service_type: currentService,
                     scheduled_time: `${selectedDay}T${convertSlotToTime(selectedSlot)}`,
-                    notes: `Booked by Lead Generator at Home Depot`
+                    notes: `Booked by Lead Generator at Home Depot${notes ? '\n\nProspect Notes: ' + notes : ''}`
                 };
 
                 const response = await fetch(`${HCP_CONFIG.baseUrl}/appointments`, {
